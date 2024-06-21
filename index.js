@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = '5737583166:AAGdOq9XW27hmySWQtARVwvA2BYthdP4qZg';
-const webAppUrl = 'https://ya.ru';
+const webAppUrl = 'https://7adc-78-85-253-114.ngrok-free.app';
 const bot = new TelegramBot(token, {polling: true});
 
 bot.on('message', async(msg) => {
