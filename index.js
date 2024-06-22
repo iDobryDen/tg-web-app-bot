@@ -1,9 +1,18 @@
 const TelegramBot = require('node-telegram-bot-api');
+const express = require('express');
+const cors = require('cors');
+
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = '5737583166:AAGdOq9XW27hmySWQtARVwvA2BYthdP4qZg';
 const webAppUrl = 'https://f5b2-78-85-253-114.ngrok-free.app';
+
 const bot = new TelegramBot(token, {polling: true});
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
 
 bot.on('message', async(msg) => {
   const chatId = msg.chat.id;
@@ -43,3 +52,30 @@ bot.on('message', async(msg) => {
     }
   }
 });
+
+app.post('/web-data', async (req, res) => {
+    const {queryId, products, totalPrice} = req.body;
+    try {
+        await bot.answerWebAppQuery(queryId, {
+            type: 'article',
+            id: queryId,
+            title: 'Успешная покупка!',
+            input_message_content: {message_text: 'Поздравляю с покупкой, вы приобрели товар на сумму $' + totalPrice}
+        })
+        return res.status(200).json({});
+    } catch (e) {
+        await bot.answerWebAppQuery(queryId, {
+            ttype: 'article',
+            id: queryId,
+            title: 'Не удалось приобрести товар',
+            input_message_content: {message_text: 'Не удалось приобрести товар'}
+        })
+        return res.status(500).json({});
+
+    }
+    
+})
+
+const PORT = 8000;
+
+app.listen(PORT, () => console.log('server started on PORT ' + PORT))
