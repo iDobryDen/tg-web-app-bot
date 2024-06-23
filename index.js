@@ -5,7 +5,7 @@ const cors = require('cors');
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = '5737583166:AAGdOq9XW27hmySWQtARVwvA2BYthdP4qZg';
-const webAppUrl = 'https://f5b2-78-85-253-114.ngrok-free.app';
+const webAppUrl = 'http://192.168.0.79';
 
 const bot = new TelegramBot(token, {polling: true});
 const app = express();
